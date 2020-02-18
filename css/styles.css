@@ -1,0 +1,23 @@
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.harmonica {
+    text-align: center
+}
+
+.hole {
+    background-color: burlywood;
+}
+
+.draw {
+    background-color: coral;
+}
+
+.blow {
+    background-color: cornflowerblue;
+}
+
+td {
+    height: 40px;
+    width: 40px;
+}

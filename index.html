@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="css/styles.css">
+    </link>
+    <script type="text/javascript" src="js/scales.js"></script>
+    <title>Harmonica scales</title>
+
+</head>
+
+<body>
+    <script type="text/javascript" src="js/pitchdetect.js"></script>
+
+    <h1>Harmonica scales</h1>
+    <div class=harmonica>
+        <table>
+            <tr>
+                <td colspan=9></td>
+                <td class="note blow note_10">10</td>
+            </tr>
+            <tr>
+                <td colspan=7>&nbsp;</td>
+                <td class="note blow note_3">3</td>
+                <td class="note blow note_6">6</td>
+                <td class="note blow note_11">11</td>
+            </tr>
+            <tr>
+                <td class="note blow note_0">0</td>
+                <td class="note blow note_4">4</td>
+                <td class="note blow note_7">7</td>
+                <td class="note blow note_0">0</td>
+                <td class="note blow note_4">4</td>
+                <td class="note blow note_7">7</td>
+                <td class="note blow note_0">0</td>
+                <td class="note blow note_4">4</td>
+                <td class="note blow note_7">7</td>
+                <td class="note blow note_0">0</td>
+            </tr>
+            <tr>
+                <td class="hole">1</td>
+                <td class="hole">3</td>
+                <td class="hole">3</td>
+                <td class="hole">4</td>
+                <td class="hole">5</td>
+                <td class="hole">6</td>
+                <td class="hole">7</td>
+                <td class="hole">8</td>
+                <td class="hole">9</td>
+                <td class="hole">10</td>
+            </tr>
+            <tr>
+                <td class="note draw note_2">2</td>
+                <td class="note draw note_7">7</td>
+                <td class="note draw note_11">11</td>
+                <td class="note draw note_2">2</td>
+                <td class="note draw note_5">5</td>
+                <td class="note draw note_9">9</td>
+                <td class="note draw note_11">11</td>
+                <td class="note draw note_2">3</td>
+                <td class="note draw note_5">5</td>
+                <td class="note draw note_9">9</td>
+            </tr>
+            <tr>
+                <td class="note draw note_1">1</td>
+                <td class="note draw note_6">6</td>
+                <td class="note draw note_10">10</td>
+                <td class="note draw note_1">1</td>
+                <td>&nbsp;</td>
+                <td class="note draw note_8">8</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td class="note draw note_5">5</td>
+                <td class="note draw note_9">9</td>
+            </tr>
+            <tr>
+                <td colspan=2>&nbsp;</td>
+                <td class="note draw note_8">8</td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        window.onload = function () {
+            setup_scales("C");
+            pitchDetectOnLoad();
+        }
+    </script>
+
+    <div id="selector">
+        <p>Pick an harmonica major scale:
+            <select id="armonica_combo" onchange='setup_scales(document.getElementById("armonica_combo").value);''>
+            <option value="C">C armonica</option>
+            <option value="C#">C#/Db armonica</option>
+            <option value="D">D armonica</option>
+            <option value="D#">D#/Eb armonica</option>
+            <option value="E">E armonica</option>
+            <option value="F">F armonica</option>
+            <option value="F#">F#/Gb armonica</option>
+            <option value="G">G armonica</option>
+            <option value="G#">G#/Ab armonica</option>
+            <option value="A">A armonica</option>
+            <option value="A#">A#/Bb armonica</option>
+            <option value="B">B armonica</option>
+        </select>
+        </p>
+        <!-- Debug canvas -->
+        <canvas id="waveform" width="512" height="256"></canvas>
+		 
+        <div id="detector" class="vague">
+            <div class="pitch"><span id="pitch">--</span>Hz</div>
+			<div class="note"><span id="note">--</span></div>   
+			<canvas id="output" width=300 height=42></canvas>
+			<div id="detune"><span id="detune_amt">--</span><span id="flat">cents &#9837;</span><span id="sharp">cents &#9839;</span></div>
+		</div>
+        
+        <button onclick="toggleLiveInput()">Listen to the mic</button>
+        <button onclick="stopListening()">Stop listening to the mic</button>
+    </div>
+    
+</html>
