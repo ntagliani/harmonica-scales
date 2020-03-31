@@ -40,11 +40,12 @@ var detectorElem,
   detuneElem,
   detuneAmount;
 var frequency_buf = null;
+var SAMPLE_RATE = 44000;
 
 function pitchDetectOnLoad() {
 	//audioContext.sampleRate
-  audioContext = new AudioContext({sampleRate: 44000});
-  MAX_SIZE = Math.max(4, Math.floor(audioContext.sampleRate / 5000)); // corresponds to a 5kHz signal
+//  audioContext = new AudioContext({sampleRate: 44000});
+ MAX_SIZE = Math.max(4, Math.floor(SAMPLE_RATE / 5000)); // corresponds to a 5kHz signal
 
   detectorElem = document.getElementById("detector");
   canvasElem = document.getElementById("output");
@@ -115,6 +116,10 @@ function toggleLiveInput() {
     if (!window.cancelAnimationFrame)
       window.cancelAnimationFrame = window.webkitCancelAnimationFrame;
     window.cancelAnimationFrame(rafID);
+  } else {
+    if (audioContext== null){
+      audioContext = new AudioContext({sampleRate: SAMPLE_RATE});
+    }
   }
   getUserMedia(
     {
@@ -163,6 +168,9 @@ var buflen = 1024;
 var buf = new Float32Array(buflen);
 
 var noteStrings = [
+  "A",
+  "A#",
+  "B",
   "C",
   "C#",
   "D",
@@ -171,19 +179,17 @@ var noteStrings = [
   "F",
   "F#",
   "G",
-  "G#",
-  "A",
-  "A#",
-  "B"
-];
+  "G#"
+  ];
 
+// note relative to A2 on a piano
 function noteFromPitch(frequency) {
   var noteNum = 12 * (Math.log(frequency / 440) / Math.log(2));
-  return Math.round(noteNum) + 49;
+  return Math.round(noteNum) + (49-25);
 }
-
+// note relative to A2 on a piano
 function frequencyFromNoteNumber(note) {
-  return 440 * Math.pow(2, (note - 49) / 12);
+  return 440 * Math.pow(2, (note - (49-25)) / 12);
 }
 
 function centsOffFromPitch(frequency, note) {
@@ -230,6 +236,38 @@ function autoCorrelateFloat( buf, sampleRate ) {
 
 var MIN_SAMPLES = 0; // will be initialized when AudioContext is created.
 var GOOD_ENOUGH_CORRELATION = 0.7; // this is the "bar" for how close a correlation needs to be
+
+function frequencyAnalysis(buffer, samplingRate){
+  
+
+  max_pos = 0;
+  for (var i = 1; i < buffer.length; i++){
+    if (buffer[i] > buffer[max_pos]){
+      max_pos = i;
+    }
+  }
+
+  if (max_pos != 0 && max_pos+1 < buffer.length){
+    // parabolic interponation given on max_pos +-1 and the relative buffervalues
+    var x1 = max_pos-1;
+    var x2 = max_pos;
+    var x3 = max_pos+1;
+
+    var y1 = buffer[max_pos-1];
+    var y2 = buffer[max_pos];
+    var y3 = buffer[max_pos+1];
+
+      var a = (y3-y1)-(y2-y1)/(x3*x3 - x1*x1)-(x2*x2-x1*x1)*(x3-x1);
+      var b = (y2-y1)-a*(x2*x2-x1*x1);
+      var exact_pos = -b/(2*a);
+      return exact_pos;
+    }
+
+  return max_pos;
+
+}
+
+
 
 function autoCorrelate(buf, sampleRate) {
   var SIZE = buf.length;
@@ -296,6 +334,10 @@ function updatePitch(time) {
   var cycles = new Array();
   analyser.getByteFrequencyData(frequency_buf);
   analyser.getFloatTimeDomainData(buf);
+
+  
+  var freq = frequencyAnalysis(frequency_buf, audioContext.sampleRate);
+  
   var ac = autoCorrelate(buf, audioContext.sampleRate);
   // TODO: Paint confidence meter on canvasElem here.
   
@@ -326,17 +368,25 @@ function updatePitch(time) {
     waveCanvas.lineTo(buffer_size - 1, 256);
 
     waveCanvas.stroke();
-    waveCanvas.strokeStyle = "black";
 
+    waveCanvas.strokeStyle = "black";    
     waveCanvas.beginPath();
     waveCanvas.moveTo(0, frequency_buf[0]);
     for (var i = 1; i < frequency_buf.length; i++) {
       waveCanvas.lineTo(i, 256 - frequency_buf[i]);
     }
     waveCanvas.stroke();
+    
+    if (freq != 0){
+      waveCanvas.strokeStyle = "green";    
+      waveCanvas.beginPath();
+      waveCanvas.moveTo(freq, 0);
+      waveCanvas.lineTo(freq, 256 );
+      waveCanvas.stroke();    
+    }
   }
 
-  if (ac == -1) {
+  if (freq == 0) {
     detectorElem.className = "vague";
     pitchElem.innerText = "--";
     noteElem.innerText = "-";
@@ -344,8 +394,9 @@ function updatePitch(time) {
     detuneAmount.innerText = "--";
   } else {
     detectorElem.className = "confident";
-    pitch = ac;
-    pitchElem.innerText = Math.round(pitch);
+    pitch = (audioContext.sampleRate / analyser.fftSize)*freq;
+    pitchElem.innerText = pitch;
+
     var note = noteFromPitch(pitch);
     noteElem.innerHTML = noteStrings[note % 12];
     var detune = centsOffFromPitch(pitch, note);
