@@ -2,44 +2,46 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="css/styles.css">
-    </link>
+    <link rel="stylesheet" href="css/styles.css"></link>
+    <link rek="icon" href="harmonica.ico"></link>
+    <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/scales.js"></script>
+    <script type="text/javascript" src="js/boxer.js"></script>
+    <script type="text/javascript" src="js/pitchdetect.js"></script>
     <title>Harmonica scales</title>
 
 </head>
 
 <body>
-    <script type="text/javascript" src="js/pitchdetect.js"></script>
 
     <h1>Harmonica scales</h1>
     <div class=harmonica>
         <table>
             <tr>
                 <td colspan=9></td>
-                <td class="note blow note_10">10</td>
+                <td class="note blow note_10" id="blow_10bb">10</td>
             </tr>
             <tr>
                 <td colspan=7>&nbsp;</td>
-                <td class="note blow note_3">3</td>
-                <td class="note blow note_6">6</td>
-                <td class="note blow note_11">11</td>
+                <td class="note blow note_3" id="blow_8b">3</td>
+                <td class="note blow note_6" id="blow_9b">6</td>
+                <td class="note blow note_11" id="blow_10b">11</td>
             </tr>
             <tr>
-                <td class="note blow note_0">0</td>
-                <td class="note blow note_4">4</td>
-                <td class="note blow note_7">7</td>
-                <td class="note blow note_0">0</td>
-                <td class="note blow note_4">4</td>
-                <td class="note blow note_7">7</td>
-                <td class="note blow note_0">0</td>
-                <td class="note blow note_4">4</td>
-                <td class="note blow note_7">7</td>
-                <td class="note blow note_0">0</td>
+                <td class="note blow note_0" id="blow_1">0</td>
+                <td class="note blow note_4" id="blow_2">4</td>
+                <td class="note blow note_7" id="blow_3">7</td>
+                <td class="note blow note_0" id="blow_4">0</td>
+                <td class="note blow note_4" id="blow_5">4</td>
+                <td class="note blow note_7" id="blow_6">7</td>
+                <td class="note blow note_0" id="blow_7">0</td>
+                <td class="note blow note_4" id="blow_8">4</td>
+                <td class="note blow note_7" id="blow_9">7</td>
+                <td class="note blow note_0" id="blow_10">0</td>
             </tr>
             <tr>
                 <td class="hole">1</td>
-                <td class="hole">3</td>
+                <td class="hole">2</td>
                 <td class="hole">3</td>
                 <td class="hole">4</td>
                 <td class="hole">5</td>
@@ -50,41 +52,43 @@
                 <td class="hole">10</td>
             </tr>
             <tr>
-                <td class="note draw note_2">2</td>
-                <td class="note draw note_7">7</td>
-                <td class="note draw note_11">11</td>
-                <td class="note draw note_2">2</td>
-                <td class="note draw note_5">5</td>
-                <td class="note draw note_9">9</td>
-                <td class="note draw note_11">11</td>
-                <td class="note draw note_2">3</td>
-                <td class="note draw note_5">5</td>
-                <td class="note draw note_9">9</td>
+                <td class="note draw note_2" id="draw_1">2</td>
+                <td class="note draw note_7" id="draw_2">7</td>
+                <td class="note draw note_11" id="draw_3">11</td>
+                <td class="note draw note_2" id="draw_4">2</td>
+                <td class="note draw note_5" id="draw_5">5</td>
+                <td class="note draw note_9" id="draw_6">9</td>
+                <td class="note draw note_11" id="draw_7">11</td>
+                <td class="note draw note_2" id="draw_8">3</td>
+                <td class="note draw note_5" id="draw_9">5</td>
+                <td class="note draw note_9" id="draw_10">9</td>
             </tr>
             <tr>
-                <td class="note draw note_1">1</td>
-                <td class="note draw note_6">6</td>
-                <td class="note draw note_10">10</td>
-                <td class="note draw note_1">1</td>
+                <td class="note draw note_1" id="draw_1b">1</td>
+                <td class="note draw note_6" id="draw_2b">6</td>
+                <td class="note draw note_10" id="draw_3b">10</td>
+                <td class="note draw note_1" id="draw_4b">1</td>
                 <td>&nbsp;</td>
-                <td class="note draw note_8">8</td>
+                <td class="note draw note_8" id="draw_6b">8</td>
             </tr>
             <tr>
                 <td>&nbsp;</td>
-                <td class="note draw note_5">5</td>
-                <td class="note draw note_9">9</td>
+                <td class="note draw note_5" id="draw_2bb">5</td>
+                <td class="note draw note_9" id="draw_3bb">9</td>
             </tr>
             <tr>
                 <td colspan=2>&nbsp;</td>
-                <td class="note draw note_8">8</td>
+                <td class="note draw note_8" id="draw_3bbb">8</td>
             </tr>
         </table>
+
     </div>
 
     <script>
         window.onload = function () {
             setup_scales("C");
             pitchDetectOnLoad();
+            drawSquare();
         }
     </script>
 
@@ -106,7 +110,7 @@
         </select>
         </p>
         <!-- Debug canvas -->
-        <canvas id="waveform" width="512" height="256"></canvas>
+        <canvas id="waveform" width="0" height="256"></canvas>
 		 
         <div id="detector" class="vague">
             <div class="pitch"><span id="pitch">--</span>Hz</div>
@@ -118,5 +122,6 @@
         <button onclick="toggleLiveInput()">Listen to the mic</button>
         <button onclick="stopListening()">Stop listening to the mic</button>
     </div>
-    
+    <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+</body>    
 </html>
