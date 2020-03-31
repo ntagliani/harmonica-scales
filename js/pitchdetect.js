@@ -169,27 +169,42 @@ var buf = new Float32Array(buflen);
 
 var noteStrings = [
   "A",
-  "A#",
+  "A",
   "B",
   "C",
-  "C#",
+  "C",
   "D",
-  "D#",
+  "D",
   "E",
   "F",
-  "F#",
+  "F",
   "G",
-  "G#"
+  "G"
   ];
+
+  var noteAlteration = [
+    "",
+    "#",
+    "",
+    "",
+    "#",
+    "",
+    "#",
+    "",
+    "",
+    "#",
+    "",
+    "#"
+    ];
 
 // note relative to A2 on a piano
 function noteFromPitch(frequency) {
   var noteNum = 12 * (Math.log(frequency / 440) / Math.log(2));
-  return Math.round(noteNum) + (49-25);
+  return Math.round(noteNum) + 48;
 }
 // note relative to A2 on a piano
 function frequencyFromNoteNumber(note) {
-  return 440 * Math.pow(2, (note - (49-25)) / 12);
+  return 440 * Math.pow(2, (note - 48) / 12);
 }
 
 function centsOffFromPitch(frequency, note) {
@@ -398,7 +413,9 @@ function updatePitch(time) {
     pitchElem.innerText = pitch;
 
     var note = noteFromPitch(pitch);
-    noteElem.innerHTML = noteStrings[note % 12];
+    var octaveAfterSecond = Math.floor(note / 12);
+    var notesIndex = note % 12;
+    noteElem.innerHTML = noteStrings[notesIndex] + (octaveAfterSecond) + noteAlteration[notesIndex]
     var detune = centsOffFromPitch(pitch, note);
     if (detune == 0) {
       detuneElem.className = "";
