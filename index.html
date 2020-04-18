@@ -19,25 +19,25 @@
         <table>
             <tr>
                 <td colspan=9></td>
-                <td class="note blow note_10" id="blow_10bb">10</td>
+                <td class="note blow note_10 tune_34" id="blow_10bb">10</td>
             </tr>
             <tr>
                 <td colspan=7>&nbsp;</td>
-                <td class="note blow note_3" id="blow_8b">3</td>
-                <td class="note blow note_6" id="blow_9b">6</td>
-                <td class="note blow note_11" id="blow_10b">11</td>
+                <td class="note blow note_3 tune_27" id="blow_8b">3</td>
+                <td class="note blow note_6 tune_30" id="blow_9b">6</td>
+                <td class="note blow note_11 tune_35" id="blow_10b">11</td>
             </tr>
             <tr>
-                <td class="note blow note_0" id="blow_1">0</td>
-                <td class="note blow note_4" id="blow_2">4</td>
+                <td class="note blow note_0 tune_0" id="blow_1">0</td>
+                <td class="note blow note_4 tune_4" id="blow_2">4</td>
                 <td class="note blow note_7" id="blow_3">7</td>
-                <td class="note blow note_0" id="blow_4">0</td>
-                <td class="note blow note_4" id="blow_5">4</td>
-                <td class="note blow note_7" id="blow_6">7</td>
-                <td class="note blow note_0" id="blow_7">0</td>
-                <td class="note blow note_4" id="blow_8">4</td>
-                <td class="note blow note_7" id="blow_9">7</td>
-                <td class="note blow note_0" id="blow_10">0</td>
+                <td class="note blow note_0 tune_12" id="blow_4">0</td>
+                <td class="note blow note_4 tune_16" id="blow_5">4</td>
+                <td class="note blow note_7 tune_19" id="blow_6">7</td>
+                <td class="note blow note_0 tune_24" id="blow_7">0</td>
+                <td class="note blow note_4 tune_28" id="blow_8">4</td>
+                <td class="note blow note_7 tune_31" id="blow_9">7</td>
+                <td class="note blow note_0 tune_36" id="blow_10">0</td>
             </tr>
             <tr>
                 <td class="hole">1</td>
@@ -52,33 +52,33 @@
                 <td class="hole">10</td>
             </tr>
             <tr>
-                <td class="note draw note_2" id="draw_1">2</td>
-                <td class="note draw note_7" id="draw_2">7</td>
-                <td class="note draw note_11" id="draw_3">11</td>
-                <td class="note draw note_2" id="draw_4">2</td>
-                <td class="note draw note_5" id="draw_5">5</td>
-                <td class="note draw note_9" id="draw_6">9</td>
-                <td class="note draw note_11" id="draw_7">11</td>
-                <td class="note draw note_2" id="draw_8">3</td>
-                <td class="note draw note_5" id="draw_9">5</td>
-                <td class="note draw note_9" id="draw_10">9</td>
+                <td class="note draw note_2 tune_2" id="draw_1">2</td>
+                <td class="note draw note_7 tune_7" id="draw_2">7</td>
+                <td class="note draw note_11 tune_11" id="draw_3">11</td>
+                <td class="note draw note_2 tune_14" id="draw_4">2</td>
+                <td class="note draw note_5 tune_17" id="draw_5">5</td>
+                <td class="note draw note_9 tune_21" id="draw_6">9</td>
+                <td class="note draw note_11 tune_23" id="draw_7">11</td>
+                <td class="note draw note_2 tune_26" id="draw_8">3</td>
+                <td class="note draw note_5 tune_29" id="draw_9">5</td>
+                <td class="note draw note_9 tune_33" id="draw_10">9</td>
             </tr>
             <tr>
-                <td class="note draw note_1" id="draw_1b">1</td>
-                <td class="note draw note_6" id="draw_2b">6</td>
-                <td class="note draw note_10" id="draw_3b">10</td>
-                <td class="note draw note_1" id="draw_4b">1</td>
+                <td class="note draw note_1 tune_1" id="draw_1b">1</td>
+                <td class="note draw note_6 tune_6" id="draw_2b">6</td>
+                <td class="note draw note_10 tune_10" id="draw_3b">10</td>
+                <td class="note draw note_1 tune_13" id="draw_4b">1</td>
                 <td>&nbsp;</td>
-                <td class="note draw note_8" id="draw_6b">8</td>
+                <td class="note draw note_8 tune_20" id="draw_6b">8</td>
             </tr>
             <tr>
                 <td>&nbsp;</td>
-                <td class="note draw note_5" id="draw_2bb">5</td>
-                <td class="note draw note_9" id="draw_3bb">9</td>
+                <td class="note draw note_5 tune_5" id="draw_2bb">5</td>
+                <td class="note draw note_9 tune_9" id="draw_3bb">9</td>
             </tr>
             <tr>
                 <td colspan=2>&nbsp;</td>
-                <td class="note draw note_8" id="draw_3bbb">8</td>
+                <td class="note draw note_8 tune_8" id="draw_3bbb">8</td>
             </tr>
         </table>
 
@@ -88,7 +88,6 @@
         window.onload = function () {
             setup_scales("C");
             pitchDetectOnLoad();
-            drawSquare();
         }
     </script>
 
@@ -119,7 +118,7 @@
 			<div id="detune"><span id="detune_amt">--</span><span id="flat">cents &#9837;</span><span id="sharp">cents &#9839;</span></div>
 		</div>
         
-        <button onclick="toggleLiveInput()">Listen to the mic</button>
+        <button onclick='toggleLiveInput(document.getElementById("harmonica_combo").value)'>Listen to the mic</button>
         <button onclick="stopListening()">Stop listening to the mic</button>
     </div>
     <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>

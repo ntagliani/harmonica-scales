@@ -41,8 +41,10 @@ var detectorElem,
   detuneAmount;
 var frequency_buf = null;
 var SAMPLE_RATE = 44000;
+var harmonica_key = 'C';
 
 function pitchDetectOnLoad() {
+  boxSetup();
 	//audioContext.sampleRate
 //  audioContext = new AudioContext({sampleRate: 44000});
  MAX_SIZE = Math.max(4, Math.floor(SAMPLE_RATE / 5000)); // corresponds to a 5kHz signal
@@ -105,7 +107,8 @@ function getUserMedia(dictionary, callback) {
   }
 }
 
-function toggleLiveInput() {
+function toggleLiveInput(harp_key) {
+  harmonica_key = harp_key
   if (isPlaying) {
     //stop playing and return
     sourceNode.stop(0);
@@ -197,12 +200,12 @@ var noteStrings = [
     "#"
     ];
 
-// note relative to A2 on a piano
+// note relative to A4 on a piano
 function noteFromPitch(frequency) {
   var noteNum = 12 * (Math.log(frequency / 440) / Math.log(2));
   return Math.round(noteNum) + 48;
 }
-// note relative to A2 on a piano
+// note relative to A4 on a piano
 function frequencyFromNoteNumber(note) {
   return 440 * Math.pow(2, (note - 48) / 12);
 }
@@ -213,6 +216,35 @@ function centsOffFromPitch(frequency, note) {
   );
 }
 
+let absolute_harmonica_starting_note = [
+  "A",
+  "A#",
+  "B",
+  "C",
+  "C#",
+  "D",
+  "D#",
+  "E",
+  "F",
+  "F#",
+  "G",
+  "G#"
+];
+
+function indexOf(array, value) {
+  for (var i = 0; i < array.length; i++) {
+     if (array[i] == value) {
+       return i;
+     }
+   
+ }
+ return null;
+}
+
+function noteFromArmonicaKey(note, harp_key){
+  var base_note = 36 + indexOf(absolute_harmonica_starting_note, harp_key);
+  return note - base_note;
+}
 // this is a float version of the algorithm below - but it's not currently used.
 /*
 function autoCorrelateFloat( buf, sampleRate ) {
@@ -344,6 +376,9 @@ function autoCorrelate(buf, sampleRate) {
   return -1;
   //	var best_frequency = sampleRate/best_offset;
 }
+function setHarmonicaKey(harp_key){
+  harmonica_key = harp_key;
+}
 
 function updatePitch(time) {
   var cycles = new Array();
@@ -402,6 +437,7 @@ function updatePitch(time) {
   }
 
   if (freq == 0) {
+    clearCanvas();
     detectorElem.className = "vague";
     pitchElem.innerText = "--";
     noteElem.innerText = "-";
@@ -413,9 +449,11 @@ function updatePitch(time) {
     pitchElem.innerText = pitch;
 
     var note = noteFromPitch(pitch);
+    var noteOnHarmonica = noteFromArmonicaKey(note, harmonica_key);
+    drawSquare(noteOnHarmonica);
     var octaveAfterSecond = Math.floor(note / 12);
     var notesIndex = note % 12;
-    noteElem.innerHTML = noteStrings[notesIndex] + (octaveAfterSecond) + noteAlteration[notesIndex]
+    noteElem.innerHTML = noteStrings[notesIndex] + (octaveAfterSecond) + noteAlteration[notesIndex];
     var detune = centsOffFromPitch(pitch, note);
     if (detune == 0) {
       detuneElem.className = "";

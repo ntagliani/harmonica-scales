@@ -29,8 +29,7 @@
   ];
 
   function find_first_occurrence_of(key) {
-    var i = 0;
-    for (; i < 12; i++) {
+     for (var i = 0; i < 12; i++) {
       for (var eq = 0; eq < notes[i].length; eq++) {
         if (notes[i][eq] == key) {
           return i;
@@ -45,6 +44,9 @@
     if (start_index == null) {
       start_index = 0;
     }
+
+    setHarmonicaKey(key);
+ //   real_note = absolute_harmonica_starting_note[start_index];
 
     for (var note = 0; note < 12; note++) {
       var out = document.getElementsByClassName("note_" + note);
