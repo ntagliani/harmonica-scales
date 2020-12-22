@@ -109,7 +109,7 @@
         </select>
         </p>
         <!-- Debug canvas -->
-        <canvas id="waveform" width="0" height="256"></canvas>
+        <!--<canvas id="waveform" width="0" height="256"></canvas>-->
 		 
         <div id="detector" class="vague">
             <div class="pitch"><span id="pitch">--</span>Hz</div>
@@ -121,6 +121,13 @@
         <button onclick='toggleLiveInput(document.getElementById("harmonica_combo").value)'>Listen to the mic</button>
         <button onclick="stopListening()">Stop listening to the mic</button>
     </div>
-    <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+    <div id="credits-area">
+        <h1 id="credits-title">Credits</h1>
+        <ul>
+            <li>The pitch detection is taken from <a href="https://github.com/cwilso/PitchDetect">https://github.com/cwilso/PitchDetect</a></li>
+            <li>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></li>
+
+        </ul>
+    </div>
 </body>    
 </html>

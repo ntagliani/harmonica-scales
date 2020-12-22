@@ -21,3 +21,10 @@ td {
     height: 40px;
     width: 40px;
 }
+
+#credits-area {
+    padding-top: 30px;
+}
+#credits-title {
+    font-size: medium;
+}

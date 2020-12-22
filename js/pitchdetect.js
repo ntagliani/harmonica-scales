@@ -446,7 +446,7 @@ function updatePitch(time) {
   } else {
     detectorElem.className = "confident";
     pitch = (audioContext.sampleRate / analyser.fftSize)*freq;
-    pitchElem.innerText = pitch;
+    pitchElem.innerText = pitch.toFixed(3);
 
     var note = noteFromPitch(pitch);
     var noteOnHarmonica = noteFromArmonicaKey(note, harmonica_key);
